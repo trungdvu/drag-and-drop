@@ -1,18 +1,31 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Layout, Form, Input, Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Dispatch, RootState } from '../store';
+import { connect } from 'react-redux';
 
-const SignUpPage: FC = () => {
-  const onFinish = (values: any) => {
-    console.log('Success :>> ', values);
+type SignUpPageProps = ReturnType<typeof mapDispatch> &
+  ReturnType<typeof mapState>;
+
+const SignUpPage: FC<SignUpPageProps> = (props) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (props.currentUser) {
+      navigate('/');
+    }
+  }, [navigate, props.currentUser]);
+
+  const _onFinish = async (values: any) => {
+    await props.doSignUp(values);
   };
 
   return (
-    <Layout className="p-5 rounded mx-auto mt-20 max-w-sm">
+    <Layout className="max-w-sm p-5 mx-auto mt-20 rounded">
       <Form
         name="login"
         layout="vertical"
-        onFinish={onFinish}
+        onFinish={_onFinish}
         autoComplete="off"
       >
         <p className="text-2xl text-center">
@@ -35,8 +48,16 @@ const SignUpPage: FC = () => {
           <Input.Password />
         </Form.Item>
 
+        <Form.Item label="Email" name="email">
+          <Input />
+        </Form.Item>
+
+        <Form.Item label="Name" name="fullName">
+          <Input />
+        </Form.Item>
+
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="mt-2 w-full">
+          <Button type="primary" htmlType="submit" className="w-full mt-2">
             Sign up
           </Button>
         </Form.Item>
@@ -54,4 +75,12 @@ const SignUpPage: FC = () => {
   );
 };
 
-export default SignUpPage;
+const mapState = (state: RootState) => ({
+  currentUser: state.auth.currentUser,
+});
+
+const mapDispatch = (dispatch: Dispatch) => ({
+  doSignUp: dispatch.auth.doSignUp,
+});
+
+export default connect(mapState, mapDispatch)(SignUpPage);

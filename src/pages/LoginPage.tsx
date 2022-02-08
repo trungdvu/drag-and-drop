@@ -1,18 +1,31 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Button, Form, Input, Layout } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Dispatch, RootState } from '../store';
+import { connect } from 'react-redux';
 
-const LoginPage: FC = () => {
-  const onFinish = (values: any) => {
-    console.log('Success :>> ', values);
+type LoginPageProps = ReturnType<typeof mapState> &
+  ReturnType<typeof mapDispatch>;
+
+const LoginPage: FC<LoginPageProps> = (props) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (props.currentUser) {
+      navigate('/');
+    }
+  }, [navigate, props.currentUser]);
+
+  const _onFinish = (values: any) => {
+    props.doLogin(values);
   };
 
   return (
-    <Layout className="p-5 rounded mx-auto mt-20 max-w-sm">
+    <Layout className="max-w-sm p-5 mx-auto mt-20 rounded">
       <Form
         name="login"
         layout="vertical"
-        onFinish={onFinish}
+        onFinish={_onFinish}
         autoComplete="off"
       >
         <p className="text-2xl text-center">
@@ -36,7 +49,7 @@ const LoginPage: FC = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="mt-2 w-full">
+          <Button type="primary" htmlType="submit" className="w-full mt-2">
             Login
           </Button>
         </Form.Item>
@@ -54,4 +67,12 @@ const LoginPage: FC = () => {
   );
 };
 
-export default LoginPage;
+const mapState = (state: RootState) => ({
+  currentUser: state.auth.currentUser,
+});
+
+const mapDispatch = (dispatch: Dispatch) => ({
+  doLogin: dispatch.auth.doLogin,
+});
+
+export default connect(mapState, mapDispatch)(LoginPage);
