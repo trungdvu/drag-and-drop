@@ -3,7 +3,7 @@ import { store } from '../store';
 import globalConfig from '../variables/global-config';
 
 const { apiBaseURL } = globalConfig;
-console.log('apiBaseURL :>> ', apiBaseURL);
+
 function getClient(baseURL: any) {
   const options = {
     baseURL: baseURL || apiBaseURL,

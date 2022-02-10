@@ -19,7 +19,11 @@ export const auth = createModel<RootModel>()({
         const endpoint = `auth/login`;
         const result = await apiClient.post(endpoint, payload);
         if (result.data) {
-          localStorage.setItem('auth', JSON.stringify(result.data));
+          const auth = {
+            ...result.data,
+            currentUser: { ...payload },
+          };
+          localStorage.setItem('auth', JSON.stringify(auth));
           dispatch.auth.setCurrentUser(payload);
         }
         return result.data;
@@ -36,6 +40,18 @@ export const auth = createModel<RootModel>()({
           return this.doLogin(payload);
         }
       } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async doSignOut(payload, state) {
+      try {
+        // need userId but no api to get user info
+        // const endpoint = `auth/logout`;
+        dispatch.auth.setCurrentUser(null);
+        localStorage.setItem('auth', JSON.stringify(null));
+        return true;
+      } catch (error: any) {
         console.log(error);
       }
     },
