@@ -1,25 +1,25 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch, RootState } from '../store';
 import {
-  DndContext,
   closestCenter,
+  DndContext,
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
   MouseSensor,
   TouchSensor,
-  DragOverlay,
   useSensor,
   useSensors,
-  DragStartEvent,
-  DragEndEvent,
 } from '@dnd-kit/core';
 import {
   arrayMove,
-  SortableContext,
   rectSortingStrategy,
+  SortableContext,
 } from '@dnd-kit/sortable';
+import * as React from 'react';
+import { connect } from 'react-redux';
 import Grid from '../common-components/Grid';
-import Widget from '../common-components/widgets/Widget';
 import SortableWidgets from '../common-components/widgets/SortableWidget';
+import Widget from '../common-components/widgets/Widget';
+import { TDispatch, TRootState } from '../store';
 
 const widgets = [
   {
@@ -105,11 +105,11 @@ const DashboardPage: React.FC<TDashboardPageProps> = (props) => {
   );
 };
 
-const mapState = (state: RootState) => ({
+const mapState = (state: TRootState) => ({
   currentUser: state.auth.currentUser,
 });
 
-const mapDispatch = (dispatch: Dispatch) => ({
+const mapDispatch = (dispatch: TDispatch) => ({
   doLogin: dispatch.auth.doLogin,
 });
 

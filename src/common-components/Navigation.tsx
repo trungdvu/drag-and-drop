@@ -1,16 +1,16 @@
-import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
-import { Layout } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import { Layout } from 'antd';
+import React from 'react';
 import { connect } from 'react-redux';
-import { Dispatch, RootState } from '../store';
+import { Link } from 'react-router-dom';
+import { TDispatch, TRootState } from '../store';
 
 const { Header } = Layout;
 
 type TNavigationProps = ReturnType<typeof mapDispatch> &
   ReturnType<typeof mapState>;
 
-const Navigation: FC<TNavigationProps> = (props) => {
+const Navigation: React.FC<TNavigationProps> = (props) => {
   return (
     <Header
       className="flex items-center justify-between bg-white select-none"
@@ -41,11 +41,11 @@ const Navigation: FC<TNavigationProps> = (props) => {
   );
 };
 
-const mapState = (state: RootState) => ({
+const mapState = (state: TRootState) => ({
   currentUser: state.auth.currentUser,
 });
 
-const mapDispatch = (dispatch: Dispatch) => ({
+const mapDispatch = (dispatch: TDispatch) => ({
   doSignOut: dispatch.auth.doSignOut,
 });
 

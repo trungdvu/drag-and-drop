@@ -1,23 +1,23 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import React from 'react';
 import IdleTimer from 'react-idle-timer';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './App.css';
 import SessionExpiredModal from './common-components/SessionExpiredModal';
 import MyRoutes from './routes/MyRoutes';
-import { Dispatch, RootState } from './store';
+import { TDispatch, TRootState } from './store';
 
 const SESSION_TIME_OUT = 1800000;
 
-type AppProps = ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>;
+type TAppProps = ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>;
 
-const App: FC<AppProps> = (props) => {
-  const [isIdleExpired, setIsIdleExpired] = useState(false);
-  const idleTimer = useRef<IdleTimer>();
+const App: React.FC<TAppProps> = (props) => {
+  const [isIdleExpired, setIsIdleExpired] = React.useState(false);
+  const idleTimer = React.useRef<IdleTimer>();
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const auth = JSON.parse(localStorage.getItem('auth') || '{}');
     if (auth && auth.currentUser) {
       props.setCurrentUser(auth.currentUser);
@@ -25,7 +25,7 @@ const App: FC<AppProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!props.currentUser) {
       navigate('/login');
     }
@@ -67,11 +67,11 @@ const App: FC<AppProps> = (props) => {
   );
 };
 
-const mapState = (state: RootState) => ({
+const mapState = (state: TRootState) => ({
   currentUser: state.auth.currentUser,
 });
 
-const mapDispatch = (dispatch: Dispatch) => ({
+const mapDispatch = (dispatch: TDispatch) => ({
   setCurrentUser: dispatch.auth.setCurrentUser,
   doSignOut: dispatch.auth.doSignOut,
 });

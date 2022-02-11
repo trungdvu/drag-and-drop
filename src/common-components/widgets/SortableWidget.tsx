@@ -1,15 +1,15 @@
-import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import React from 'react';
 import Widget from './Widget';
 
-interface ISortableWidgetProps {
+type TSortableWidgetProps = {
   id: string;
   title?: string;
   faded?: boolean;
-}
+};
 
-const SortableWidgets = (props: ISortableWidgetProps) => {
+const SortableWidgets = (props: TSortableWidgetProps) => {
   const sortable = useSortable({ id: props.id });
   const { attributes, listeners, setNodeRef, transform, transition } = sortable;
 

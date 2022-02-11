@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
-import { Outlet } from 'react-router-dom';
 import { Layout } from 'antd';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 import Navigation from './Navigation';
 
 const { Content } = Layout;
 
-const MyLayout: FC = () => {
+const MyLayout: React.FC = () => {
   return (
     <Layout style={{ height: 'auto' }}>
       <Navigation />

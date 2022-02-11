@@ -1,13 +1,13 @@
-import React, { HtmlHTMLAttributes } from 'react';
 import classNames from 'classnames';
+import React from 'react';
 
-interface IWidgetProps extends HtmlHTMLAttributes<HTMLElement> {
+type TWidgetProps = {
   id: string;
   title?: string;
   faded?: boolean;
-}
+} & React.HtmlHTMLAttributes<HTMLElement>;
 
-const Widget = React.forwardRef<any, IWidgetProps>((props, ref) => {
+const Widget = React.forwardRef<any, TWidgetProps>((props, ref) => {
   const styles = {
     container: classNames('min-h-[480px] origin-center bg-slate-200 rounded', {
       'opacity-30': props.faded,

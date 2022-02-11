@@ -1,16 +1,16 @@
-import React, { FC, useEffect } from 'react';
 import { Button, Form, Input, Layout } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
-import { Dispatch, RootState } from '../store';
+import React from 'react';
 import { connect } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { TDispatch, TRootState } from '../store';
 
-type LoginPageProps = ReturnType<typeof mapState> &
+type TLoginPageProps = ReturnType<typeof mapState> &
   ReturnType<typeof mapDispatch>;
 
-const LoginPage: FC<LoginPageProps> = (props) => {
+const LoginPage: React.FC<TLoginPageProps> = (props) => {
   const navigate = useNavigate();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (props.currentUser) {
       navigate('/');
     }
@@ -67,11 +67,11 @@ const LoginPage: FC<LoginPageProps> = (props) => {
   );
 };
 
-const mapState = (state: RootState) => ({
+const mapState = (state: TRootState) => ({
   currentUser: state.auth.currentUser,
 });
 
-const mapDispatch = (dispatch: Dispatch) => ({
+const mapDispatch = (dispatch: TDispatch) => ({
   doLogin: dispatch.auth.doLogin,
 });
 

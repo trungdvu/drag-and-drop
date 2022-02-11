@@ -1,15 +1,16 @@
 import { createModel } from '@rematch/core';
-import { RootModel } from '.';
+import { IRootModel } from '.';
 import apiClient from '../services/api-client';
 import { TLoginPayload, TSignUpPayload } from '../interfaces/auth-interfaces';
-interface IAuthState {
-  currentUser: any;
-}
 
-export const auth = createModel<RootModel>()({
+type TAuthState = {
+  currentUser: any;
+};
+
+export const auth = createModel<IRootModel>()({
   state: {
     currentUser: null,
-  } as IAuthState,
+  } as TAuthState,
   reducers: {
     setCurrentUser: (state, payload) => ({ ...state, currentUser: payload }),
   },
