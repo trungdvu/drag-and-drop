@@ -48,7 +48,8 @@ class ApiClient {
       .get(url, conf)
       .then((response) => Promise.resolve(response))
       .catch((error) => {
-        console.log(`Request failed for ${url}`, error);
+        console.log(`Request failed for ${url}`);
+        console.log('error :>> ', error);
         throw error;
       });
   }
@@ -58,7 +59,8 @@ class ApiClient {
       .delete(url, { data: conf })
       .then((response) => Promise.resolve(response))
       .catch((error) => {
-        console.log(`Request failed for ${url}`, error);
+        console.log(`Request failed for ${url}`);
+        console.log('error :>> ', error);
         throw error;
       });
   }
@@ -68,7 +70,8 @@ class ApiClient {
       .post(url, data, conf)
       .then((response) => Promise.resolve(response))
       .catch((error) => {
-        console.log(`Request failed for ${url}`, error);
+        console.log(`Request failed for ${url}`);
+        console.log('error :>> ', error);
         throw error;
       });
   }
@@ -78,7 +81,8 @@ class ApiClient {
       .put(url, data, conf)
       .then((response) => Promise.resolve(response))
       .catch((error) => {
-        console.log(`Request failed for ${url}`, error);
+        console.log(`Request failed for ${url}`);
+        console.log('error :>> ', error);
         throw error;
       });
   }
@@ -88,7 +92,8 @@ class ApiClient {
       .patch(url, data, conf)
       .then((response) => Promise.resolve(response))
       .catch((error) => {
-        console.log(`Request failed for ${url}`, error);
+        console.log(`Request failed for ${url}`);
+        console.log('error :>> ', error);
         Promise.reject(error);
       });
   }

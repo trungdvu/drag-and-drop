@@ -1,20 +1,11 @@
-import React, { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { connect } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { Dispatch, RootState } from '../store';
 
 type DashboardPageProps = ReturnType<typeof mapState> &
   ReturnType<typeof mapDispatch>;
 
 const DashboardPage: FC<DashboardPageProps> = (props) => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!props.currentUser) {
-      navigate('/login');
-    }
-  }, [navigate, props.currentUser]);
-
   return <div>This is Dashboard Page</div>;
 };
 

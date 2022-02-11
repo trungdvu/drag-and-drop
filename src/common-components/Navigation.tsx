@@ -30,7 +30,10 @@ const Navigation: FC<TNavigationProps> = (props) => {
 
       <Link to="/login" className="flex items-center gap-1">
         <UserOutlined style={{ color: '#fff' }} />
-        <span className="text-white hover:underline hover:text-white">
+        <span
+          onClick={() => props.doSignOut(undefined)}
+          className="text-white hover:underline hover:text-white"
+        >
           {props.currentUser?.username} (sign out)
         </span>
       </Link>
@@ -42,6 +45,8 @@ const mapState = (state: RootState) => ({
   currentUser: state.auth.currentUser,
 });
 
-const mapDispatch = (dispatch: Dispatch) => ({});
+const mapDispatch = (dispatch: Dispatch) => ({
+  doSignOut: dispatch.auth.doSignOut,
+});
 
 export default connect(mapState, mapDispatch)(Navigation);
