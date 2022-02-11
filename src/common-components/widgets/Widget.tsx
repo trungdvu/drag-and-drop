@@ -1,28 +1,28 @@
-import React from 'react';
+import React, { HtmlHTMLAttributes } from 'react';
+import classNames from 'classnames';
 
-interface IWidgetProps {
-  url?: any;
-  index?: any;
-  faded?: any;
-  style?: any;
+interface IWidgetProps extends HtmlHTMLAttributes<HTMLElement> {
+  id: string;
+  title?: string;
+  faded?: boolean;
 }
-const Widget: React.FC<IWidgetProps> = React.forwardRef(
-  ({ url, index, faded, style, ...props }, ref: any) => {
-    const inlineStyles = {
-      opacity: faded ? '0.2' : '1',
-      transformOrigin: '0 0',
-      height: index === 0 ? 300 : 300,
-      gridRowStart: index === 0 ? null : null,
-      gridColumnStart: index === 0 ? null : null,
-      backgroundImage: `url("${url}")`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundColor: 'grey',
-      ...style,
-    };
 
-    return <div ref={ref} style={inlineStyles} {...props} />;
-  }
-);
+const Widget = React.forwardRef<any, IWidgetProps>((props, ref) => {
+  const styles = {
+    container: classNames('min-h-[480px] origin-center bg-slate-200 rounded', {
+      'opacity-30': props.faded,
+      [`${props.className}`]: props.className,
+    }),
+  };
+
+  return (
+    <div ref={ref} {...props} className={styles.container}>
+      <div className="flex items-center p-2 bg-blue-500 rounded-t">
+        <h3 className="m-0 text-base">{props.title}</h3>
+      </div>
+      {props.children}
+    </div>
+  );
+});
 
 export default Widget;
