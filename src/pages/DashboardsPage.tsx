@@ -14,104 +14,35 @@ import {
   rectSortingStrategy,
   SortableContext,
 } from '@dnd-kit/sortable';
+import { Button, Divider } from 'antd';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import Dashboard from '../common-components/Dashboard';
 import Grid from '../common-components/Grid';
+import AddWidgetPlaceholder from '../common-components/widgets/AddWidgetPlaceholder';
 import SortableWidgets from '../common-components/widgets/SortableWidget';
 import Widget from '../common-components/widgets/Widget';
 import { TDispatch, TRootState } from '../store';
-
-const widgets = [
-  {
-    id: '0',
-    title: 'hello 1',
-  },
-  {
-    id: '1',
-    title: 'hello 2',
-  },
-  {
-    id: '2',
-    title: 'hellp 3',
-  },
-  {
-    id: '3',
-    title: 'hellp 4',
-  },
-  {
-    id: '4',
-    title: 'hellp 5',
-  },
-];
 
 type TDashboardPageProps = ReturnType<typeof mapState> &
   ReturnType<typeof mapDispatch>;
 
 const DashboardsPage: React.FC<TDashboardPageProps> = (props) => {
-  const [items, setItems] = React.useState(widgets);
-  const [activeId, setActiveId] = React.useState('');
-  const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
-
   React.useEffect(() => {
     props.doFetchDashboards();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const _handleDragStart = (event: DragStartEvent) => {
-    setActiveId(event.active.id);
-  };
-
-  const _handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (over && active.id !== over.id) {
-      setItems((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id);
-        const newIndex = items.findIndex((item) => item.id === over.id);
-        return arrayMove(items, oldIndex, newIndex);
-      });
-    }
-    setActiveId('');
-  };
-
-  const _handleDragCancel = () => {
-    setActiveId('');
-  };
   return (
-    <div>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={_handleDragStart}
-        onDragEnd={_handleDragEnd}
-        onDragCancel={_handleDragCancel}
-      >
-        <SortableContext items={items} strategy={rectSortingStrategy}>
-          <Grid columns={3}>
-            {items.map((item) => (
-              <SortableWidgets
-                key={item.id}
-                id={item.id}
-                faded={item.id === activeId ? true : false}
-                title={item.title}
-              />
-            ))}
-          </Grid>
-        </SortableContext>
-        <DragOverlay adjustScale={true}>
-          {activeId ? (
-            <Widget
-              id={activeId}
-              title={items.find((item) => item.id === activeId)?.title}
-            />
-          ) : null}
-        </DragOverlay>
-      </DndContext>
+    <div className="flex flex-col gap-5">
+      {props.dashboards &&
+        props.dashboards.map((d, i) => <Dashboard key={i} dashboard={d} />)}
     </div>
   );
 };
 
 const mapState = (state: TRootState) => ({
-  currentUser: state.auth.currentUser,
+  dashboards: state.dashboards,
 });
 
 const mapDispatch = (dispatch: TDispatch) => ({

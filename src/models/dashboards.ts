@@ -1,36 +1,17 @@
 import { createModel } from '@rematch/core';
+import { v4 as uuidv4 } from 'uuid';
 import { IRootModel } from '.';
+import { IDashboard } from '../interfaces/common-interfaces';
 import apiClient from '../services/api-client';
 
-type TDashboard = {
-  id: string;
-  userId: string;
-  title?: string;
-  layoutType?: string;
-  widgets?: [
-    {
-      title: string;
-      widgetType: string;
-      minWidth: number;
-      minHeight: number;
-      configs: any;
-    }
-  ];
-};
-
-type TDashboardState = Array<TDashboard>;
+type TDashboardState = Array<IDashboard>;
 
 export const dashboards = createModel<IRootModel>()({
   state: [] as TDashboardState,
   reducers: {
     setDashboards: (state, payload) => payload,
-    createOrUpdateDashboard: (state, payload: TDashboard) =>
-      state.map((d) => {
-        if (d.id === payload.id) {
-          return payload;
-        }
-        return d;
-      }),
+    createOrUpdateDashboard: (state, payload: IDashboard) =>
+      state.map((d) => (d.id === payload.id ? payload : d)),
   },
   effects: (dispatch) => ({
     async doFetchDashboards() {
@@ -40,14 +21,24 @@ export const dashboards = createModel<IRootModel>()({
         if (result.data) {
           dispatch.dashboards.setDashboards(result.data);
         }
-        return result;
+        return result.data;
       } catch (error: any) {
         console.log(error.message);
       }
     },
 
-    async doCreateOrUpdateDashboard(payload: TDashboard, state) {
-      return true;
+    async doCreateOrUpdateDashboard(payload, state) {
+      try {
+        const id = payload.id ? payload.id : uuidv4();
+        const endpoint = `dashboards/${id}`;
+        const result = await apiClient.put(endpoint, { ...payload, id });
+        if (result.data) {
+          await dispatch.dashboards.doFetchDashboards();
+        }
+        return result.data;
+      } catch (error: any) {
+        console.log(error.message);
+      }
     },
   }),
 });

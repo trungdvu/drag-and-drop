@@ -7,7 +7,7 @@ const { Content } = Layout;
 
 const MyLayout: React.FC = () => {
   return (
-    <Layout style={{ height: 'auto' }}>
+    <Layout style={{ height: 'auto', backgroundColor: 'transparent' }}>
       <Navigation />
       <Content className="p-6">
         <Outlet />

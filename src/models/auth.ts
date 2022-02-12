@@ -1,7 +1,7 @@
 import { createModel } from '@rematch/core';
 import { IRootModel } from '.';
 import apiClient from '../services/api-client';
-import { TLoginPayload, TSignUpPayload } from '../interfaces/auth-interfaces';
+import { TLoginPayload, TSignUpPayload } from '../interfaces/common-interfaces';
 import jwt_decode from 'jwt-decode';
 
 type TAuthState = {
