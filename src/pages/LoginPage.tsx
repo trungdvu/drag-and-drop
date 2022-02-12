@@ -35,6 +35,7 @@ const LoginPage: React.FC<TLoginPageProps> = (props) => {
         <Form.Item
           label="Username"
           name="username"
+          initialValue={'admin'}
           rules={[{ required: true, message: 'Please input your username!' }]}
         >
           <Input />
@@ -43,6 +44,7 @@ const LoginPage: React.FC<TLoginPageProps> = (props) => {
         <Form.Item
           label="Password"
           name="password"
+          initialValue={'Admin@123'}
           rules={[{ required: true, message: 'Please input your password!' }]}
         >
           <Input.Password />

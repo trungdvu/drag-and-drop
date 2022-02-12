@@ -31,10 +31,10 @@ const Navigation: React.FC<TNavigationProps> = (props) => {
       <Link to="/login" className="flex items-center gap-1">
         <UserOutlined style={{ color: '#fff' }} />
         <span
-          onClick={() => props.doSignOut(undefined)}
+          onClick={() => props.doSignOut()}
           className="text-white hover:underline hover:text-white"
         >
-          {props.currentUser?.username} (sign out)
+          {props.currentUser?.user} (sign out)
         </span>
       </Link>
     </Header>

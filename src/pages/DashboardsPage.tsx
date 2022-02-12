@@ -47,10 +47,15 @@ const widgets = [
 type TDashboardPageProps = ReturnType<typeof mapState> &
   ReturnType<typeof mapDispatch>;
 
-const DashboardPage: React.FC<TDashboardPageProps> = (props) => {
+const DashboardsPage: React.FC<TDashboardPageProps> = (props) => {
   const [items, setItems] = React.useState(widgets);
   const [activeId, setActiveId] = React.useState('');
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
+
+  React.useEffect(() => {
+    props.doFetchDashboards();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const _handleDragStart = (event: DragStartEvent) => {
     setActiveId(event.active.id);
@@ -110,7 +115,7 @@ const mapState = (state: TRootState) => ({
 });
 
 const mapDispatch = (dispatch: TDispatch) => ({
-  doLogin: dispatch.auth.doLogin,
+  doFetchDashboards: dispatch.dashboards.doFetchDashboards,
 });
 
-export default connect(mapState, mapDispatch)(DashboardPage);
+export default connect(mapState, mapDispatch)(DashboardsPage);

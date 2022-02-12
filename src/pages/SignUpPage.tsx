@@ -12,6 +12,7 @@ const SignUpPage: React.FC<TSignUpPageProps> = (props) => {
 
   React.useEffect(() => {
     if (props.currentUser) {
+      console.log('props.currentUser :>> ', props.currentUser);
       navigate('/');
     }
   }, [navigate, props.currentUser]);

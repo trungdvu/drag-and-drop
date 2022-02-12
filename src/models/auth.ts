@@ -2,6 +2,7 @@ import { createModel } from '@rematch/core';
 import { IRootModel } from '.';
 import apiClient from '../services/api-client';
 import { TLoginPayload, TSignUpPayload } from '../interfaces/auth-interfaces';
+import jwt_decode from 'jwt-decode';
 
 type TAuthState = {
   currentUser: any;
@@ -20,9 +21,10 @@ export const auth = createModel<IRootModel>()({
         const endpoint = `auth/login`;
         const result = await apiClient.post(endpoint, payload);
         if (result.data) {
+          const currentUser = jwt_decode<any>(result.data.token);
           const auth = {
             ...result.data,
-            currentUser: { ...payload },
+            currentUser,
           };
           localStorage.setItem('auth', JSON.stringify(auth));
           dispatch.auth.setCurrentUser(payload);
@@ -37,15 +39,16 @@ export const auth = createModel<IRootModel>()({
       try {
         const endpoint = `auth/register`;
         const result = await apiClient.post(endpoint, payload);
+        console.log(result.data);
         if (result.data) {
-          return this.doLogin(payload);
+          // return this.doLogin(payload);
         }
       } catch (error) {
         console.log(error);
       }
     },
 
-    async doSignOut(payload, state) {
+    async doSignOut() {
       try {
         // need userId but no api to get user info
         // const endpoint = `auth/logout`;
