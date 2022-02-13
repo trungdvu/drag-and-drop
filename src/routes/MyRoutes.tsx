@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import MyLayout from '../common-components/MyLayout';
-import DashboardPage from '../pages/DashboardPage';
+import DashboardsPage from '../pages/DashboardsPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
@@ -11,8 +11,8 @@ const MyRoutes: FC = () => {
   return (
     <Routes>
       <Route path="/" element={<MyLayout />}>
-        <Route index element={<Redirect to="dashboard" />} />
-        <Route path="dashboard" element={<DashboardPage />} />
+        <Route index element={<Redirect to="dashboards" />} />
+        <Route path="dashboards" element={<DashboardsPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
 

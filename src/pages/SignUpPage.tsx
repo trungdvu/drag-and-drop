@@ -1,17 +1,18 @@
-import React, { FC, useEffect } from 'react';
-import { Layout, Form, Input, Button } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
-import { Dispatch, RootState } from '../store';
+import { Button, Form, Input, Layout } from 'antd';
+import React from 'react';
 import { connect } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { TDispatch, TRootState } from '../store';
 
-type SignUpPageProps = ReturnType<typeof mapDispatch> &
+type TSignUpPageProps = ReturnType<typeof mapDispatch> &
   ReturnType<typeof mapState>;
 
-const SignUpPage: FC<SignUpPageProps> = (props) => {
+const SignUpPage: React.FC<TSignUpPageProps> = (props) => {
   const navigate = useNavigate();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (props.currentUser) {
+      console.log('props.currentUser :>> ', props.currentUser);
       navigate('/');
     }
   }, [navigate, props.currentUser]);
@@ -75,11 +76,11 @@ const SignUpPage: FC<SignUpPageProps> = (props) => {
   );
 };
 
-const mapState = (state: RootState) => ({
+const mapState = (state: TRootState) => ({
   currentUser: state.auth.currentUser,
 });
 
-const mapDispatch = (dispatch: Dispatch) => ({
+const mapDispatch = (dispatch: TDispatch) => ({
   doSignUp: dispatch.auth.doSignUp,
 });
 

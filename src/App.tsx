@@ -1,35 +1,44 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import React from 'react';
 import IdleTimer from 'react-idle-timer';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './App.css';
 import SessionExpiredModal from './common-components/SessionExpiredModal';
 import MyRoutes from './routes/MyRoutes';
-import { Dispatch, RootState } from './store';
+import { TDispatch, TRootState } from './store';
+import moment from 'moment';
 
-const SESSION_TIME_OUT = 1800000;
+const DEFAULT_SESSION_TIME_OUT = 1800000;
 
-type AppProps = ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>;
+const getExpiredMiniseconds = (exp: any) => {
+  const expDate = moment(exp * 1000);
+  const now = moment();
+  return expDate.diff(now);
+};
 
-const App: FC<AppProps> = (props) => {
-  const [isIdleExpired, setIsIdleExpired] = useState(false);
-  const idleTimer = useRef<IdleTimer>();
+type TAppProps = ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>;
+
+const App: React.FC<TAppProps> = (props) => {
+  const sessionTimeOut = React.useRef(DEFAULT_SESSION_TIME_OUT);
+  const [isIdleExpired, setIsIdleExpired] = React.useState(false);
+  const idleTimer = React.useRef<IdleTimer>();
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const auth = JSON.parse(localStorage.getItem('auth') || '{}');
     if (auth && auth.currentUser) {
+      sessionTimeOut.current = getExpiredMiniseconds(auth.currentUser.exp);
       props.setCurrentUser(auth.currentUser);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (!props.currentUser) {
+  React.useEffect(() => {
+    if (!props.currentUser && !location.pathname.includes('/signup')) {
       navigate('/login');
     }
-  }, [navigate, props.currentUser]);
+  }, [location.pathname, navigate, props.currentUser]);
 
   const setIdleRef = (ref: IdleTimer) => {
     idleTimer.current = ref;
@@ -46,14 +55,14 @@ const App: FC<AppProps> = (props) => {
 
   const hanldeSessionExpiredModalClose = async () => {
     setIsIdleExpired(false);
-    await props.doSignOut(undefined);
+    await props.doSignOut();
   };
 
   return (
     <>
       <IdleTimer
         ref={setIdleRef}
-        timeout={SESSION_TIME_OUT}
+        timeout={sessionTimeOut.current}
         onIdle={_handleOnIdle}
         throttle={2000}
       />
@@ -67,11 +76,11 @@ const App: FC<AppProps> = (props) => {
   );
 };
 
-const mapState = (state: RootState) => ({
+const mapState = (state: TRootState) => ({
   currentUser: state.auth.currentUser,
 });
 
-const mapDispatch = (dispatch: Dispatch) => ({
+const mapDispatch = (dispatch: TDispatch) => ({
   setCurrentUser: dispatch.auth.setCurrentUser,
   doSignOut: dispatch.auth.doSignOut,
 });
