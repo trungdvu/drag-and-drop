@@ -1,5 +1,5 @@
 import { Form, Input, Modal, ModalProps } from 'antd';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { TDispatch, TRootState } from '../store';
 
@@ -22,14 +22,17 @@ const AddDashboardModal: React.FC<ModalProps & TAddDashboardModalProps> = (
     const result = await props.doCreateOrUpdateDashboard(payload);
     if (result) {
       props.onClose();
+      form.resetFields();
     }
   };
 
   const _onCancel = () => {
+    form.resetFields();
     props.onClose();
   };
 
   const _onOk = () => {
+    form.resetFields();
     form.submit();
   };
 

@@ -1,27 +1,6 @@
-import {
-  closestCenter,
-  DndContext,
-  DragEndEvent,
-  DragOverlay,
-  DragStartEvent,
-  MouseSensor,
-  TouchSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import {
-  arrayMove,
-  rectSortingStrategy,
-  SortableContext,
-} from '@dnd-kit/sortable';
-import { Button, Divider } from 'antd';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import Dashboard from '../common-components/Dashboard';
-import Grid from '../common-components/Grid';
-import AddWidgetPlaceholder from '../common-components/widgets/AddWidgetPlaceholder';
-import SortableWidgets from '../common-components/widgets/SortableWidget';
-import Widget from '../common-components/widgets/Widget';
 import { TDispatch, TRootState } from '../store';
 
 type TDashboardPageProps = ReturnType<typeof mapState> &
@@ -33,10 +12,12 @@ const DashboardsPage: React.FC<TDashboardPageProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  console.log('props.dashboards :>> ', props.dashboards);
+
   return (
     <div className="flex flex-col gap-5">
       {props.dashboards &&
-        props.dashboards.map((d, i) => <Dashboard key={i} dashboard={d} />)}
+        props.dashboards.map((d) => <Dashboard key={d.id} dashboard={d} />)}
     </div>
   );
 };
