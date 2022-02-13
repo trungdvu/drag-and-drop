@@ -68,5 +68,26 @@ export const dashboards = createModel<IRootModel>()({
         console.log(error.message);
       }
     },
+
+    async doRemoveWidget(
+      payload: { dashboard: IDashboard; widget: IWidget },
+      state
+    ) {
+      try {
+        const endpoint = `dashboards/${payload.dashboard.id}`;
+        const updatedDashboard = {
+          ...payload.dashboard,
+          widgets: payload.dashboard.widgets?.filter(
+            (w) => w.configs?.id !== payload.widget.configs?.id
+          ),
+        };
+        const result = await apiClient.put(endpoint, updatedDashboard);
+        if (result.data) {
+          await dispatch.dashboards.doFetchDashboards();
+        }
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    },
   }),
 });

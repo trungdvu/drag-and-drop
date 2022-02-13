@@ -17,6 +17,7 @@ type TWidgetProps = {
   isDragging?: boolean;
   dragAttributes?: any;
   dragListeners?: any;
+  doRemoveWidget?: any;
 } & React.HtmlHTMLAttributes<HTMLElement>;
 
 const Widget = React.forwardRef<any, TWidgetProps>(
@@ -28,11 +29,15 @@ const Widget = React.forwardRef<any, TWidgetProps>(
       isDragging,
       dragAttributes,
       dragListeners,
+      mode,
+      doRemoveWidget,
       ...props
     },
     ref
   ) => {
-    const _handleRemove = () => {};
+    const _handleRemove = async () => {
+      await doRemoveWidget({ dashboard, widget });
+    };
 
     const _handleSetting = () => {};
 
@@ -68,7 +73,7 @@ const Widget = React.forwardRef<any, TWidgetProps>(
               shape="circle"
               icon={<DragOutlined style={{ color: '#fff' }} />}
             />
-            {props.mode === 'EDIT' && (
+            {mode === 'EDIT' && (
               <React.Fragment>
                 <Button
                   type="text"
