@@ -31,6 +31,7 @@ type TDashboardProps = {
 
 const mapState = (state: TRootState) => ({
   currentUser: state.auth.currentUser,
+  mode: state.viewEdit.mode,
 });
 
 const mapDispatch = (dispatch: TDispatch) => ({
@@ -93,9 +94,12 @@ const Dashboard: React.FC<TDashboardProps> = (props) => {
                 key={item.configs?.id || index}
                 id={item.configs?.id}
                 widget={item}
+                mode={props.mode}
               />
             ))}
-            <AddWidgetPlaceholder dashboard={props.dashboard} />
+            {props.mode === 'EDIT' && (
+              <AddWidgetPlaceholder dashboard={props.dashboard} />
+            )}
           </Grid>
         </SortableContext>
         <DragOverlay adjustScale={true}>
@@ -104,6 +108,7 @@ const Dashboard: React.FC<TDashboardProps> = (props) => {
               id={activeId}
               dashboard={props.dashboard}
               widget={items.find((item) => item.configs?.id === activeId)}
+              mode={props.mode}
             />
           ) : null}
         </DragOverlay>

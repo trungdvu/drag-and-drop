@@ -8,6 +8,7 @@ type TSortableWidgetProps = {
   id: string;
   widget: IWidget;
   dashboard: IDashboard;
+  mode?: 'VIEW' | 'EDIT';
 };
 
 const SortableWidgets = (props: TSortableWidgetProps) => {

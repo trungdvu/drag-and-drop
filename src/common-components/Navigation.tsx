@@ -23,6 +23,10 @@ const Navigation: React.FC<TNavigationProps> = (props) => {
     setIsAddDashboardModalOpen(false);
   };
 
+  const _handleSwitchModeClick = () => {
+    props.toggleMode();
+  };
+
   return (
     <>
       <AddDashboardModal
@@ -48,7 +52,13 @@ const Navigation: React.FC<TNavigationProps> = (props) => {
           <Button type="primary" onClick={_handleAddDashboardModalOpen}>
             + Add new dasboard
           </Button>
-
+          <Button
+            type="ghost"
+            style={{ color: '#fff' }}
+            onClick={_handleSwitchModeClick}
+          >
+            Switch mode
+          </Button>
           <Link to="/login" className="flex items-center gap-1 font-medium">
             <UserOutlined style={{ color: '#fff' }} />
             <span
@@ -66,10 +76,12 @@ const Navigation: React.FC<TNavigationProps> = (props) => {
 
 const mapState = (state: TRootState) => ({
   currentUser: state.auth.currentUser,
+  mode: state.viewEdit.mode,
 });
 
 const mapDispatch = (dispatch: TDispatch) => ({
   doSignOut: dispatch.auth.doSignOut,
+  toggleMode: dispatch.viewEdit.toggleMode,
 });
 
 export default connect(mapState, mapDispatch)(Navigation);

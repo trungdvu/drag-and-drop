@@ -47,6 +47,8 @@ const WidgetText: React.FC<TWidgetText> = (props) => {
   return (
     <Input.TextArea
       value={text}
+      readOnly={props.mode === 'VIEW'}
+      placeholder={'Input text here...'}
       onChange={_onChange}
       style={{ minHeight: '432px', backgroundColor: 'transparent' }}
     >
@@ -55,7 +57,9 @@ const WidgetText: React.FC<TWidgetText> = (props) => {
   );
 };
 
-const mapState = (state: TRootState) => ({});
+const mapState = (state: TRootState) => ({
+  mode: state.viewEdit.mode,
+});
 
 const mapDispatch = (dispatch: TDispatch) => ({
   doUpdateWidgetText: dispatch.dashboards.doUpdateWidgetText,

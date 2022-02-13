@@ -1,17 +1,18 @@
-import { Button } from 'antd';
-import classNames from 'classnames';
-import React from 'react';
 import {
   CloseOutlined,
   DragOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
+import { Button } from 'antd';
+import classNames from 'classnames';
+import React from 'react';
 import { IDashboard, IWidget } from '../../interfaces/common-interfaces';
 import WidgetText from './WidgetText';
 
 type TWidgetProps = {
   id: string;
   widget?: IWidget;
+  mode?: 'VIEW' | 'EDIT';
   dashboard: IDashboard;
   isDragging?: boolean;
   dragAttributes?: any;
@@ -67,18 +68,22 @@ const Widget = React.forwardRef<any, TWidgetProps>(
               shape="circle"
               icon={<DragOutlined style={{ color: '#fff' }} />}
             />
-            <Button
-              type="text"
-              shape="circle"
-              icon={<SettingOutlined style={{ color: '#fff' }} />}
-              onClick={_handleSetting}
-            />
-            <Button
-              type="text"
-              shape="circle"
-              icon={<CloseOutlined style={{ color: '#fff' }} />}
-              onClick={_handleRemove}
-            />
+            {props.mode === 'EDIT' && (
+              <React.Fragment>
+                <Button
+                  type="text"
+                  shape="circle"
+                  icon={<SettingOutlined style={{ color: '#fff' }} />}
+                  onClick={_handleSetting}
+                />
+                <Button
+                  type="text"
+                  shape="circle"
+                  icon={<CloseOutlined style={{ color: '#fff' }} />}
+                  onClick={_handleRemove}
+                />
+              </React.Fragment>
+            )}
           </div>
         </div>
         {_renderWidget(widget)}

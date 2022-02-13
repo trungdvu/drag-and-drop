@@ -12,6 +12,8 @@ const DashboardsPage: React.FC<TDashboardPageProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  console.log('🚀 ~ props.dashboards', props.dashboards);
+
   return (
     <div className="flex flex-col gap-5">
       {props.dashboards &&
