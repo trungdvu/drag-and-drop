@@ -35,7 +35,7 @@ const mapState = (state: TRootState) => ({
 
 const mapDispatch = (dispatch: TDispatch) => ({
   doFetchDashboards: dispatch.dashboards.doFetchDashboards,
-  doCreateOrUpdateDashboard: dispatch.dashboards.doCreateOrUpdateDashboard,
+  doUpdateWidgets: dispatch.dashboards.doUpdateWidgets,
 });
 
 const Dashboard: React.FC<TDashboardProps> = (props) => {
@@ -59,7 +59,9 @@ const Dashboard: React.FC<TDashboardProps> = (props) => {
           (item) => item.configs.id === active.id
         );
         const newIndex = items.findIndex((item) => item.configs.id === over.id);
-        return arrayMove(items, oldIndex, newIndex);
+        const sorted = arrayMove(items, oldIndex, newIndex);
+        props.doUpdateWidgets({ ...props.dashboard, widgets: sorted });
+        return sorted;
       });
     }
     setActiveId('');

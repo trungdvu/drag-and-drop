@@ -40,5 +40,15 @@ export const dashboards = createModel<IRootModel>()({
         console.log(error.message);
       }
     },
+
+    async doUpdateWidgets(payload, state) {
+      try {
+        const endpoint = `dashboards/${payload.id}`;
+        const result = await apiClient.put(endpoint, payload);
+        return result.data;
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    },
   }),
 });
