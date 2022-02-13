@@ -40,8 +40,8 @@ const AddWidgetModal: React.FC<ModalProps & TAddWidgetModalProps> = (props) => {
   };
 
   const _onCancel = () => {
-    form.resetFields();
     props.onClose();
+    form.resetFields();
   };
 
   const _onOk = () => {

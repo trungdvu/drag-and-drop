@@ -27,12 +27,11 @@ const AddDashboardModal: React.FC<ModalProps & TAddDashboardModalProps> = (
   };
 
   const _onCancel = () => {
-    form.resetFields();
     props.onClose();
+    form.resetFields();
   };
 
   const _onOk = () => {
-    form.resetFields();
     form.submit();
   };
 
