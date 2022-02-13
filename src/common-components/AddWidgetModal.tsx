@@ -24,7 +24,7 @@ const AddWidgetModal: React.FC<ModalProps & TAddWidgetModalProps> = (props) => {
       },
     };
     const widgets = props.dashboard.widgets
-      ? [newWidget, ...props.dashboard.widgets]
+      ? [...props.dashboard.widgets, newWidget]
       : [newWidget];
 
     const payload = {

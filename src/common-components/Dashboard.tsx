@@ -89,6 +89,7 @@ const Dashboard: React.FC<TDashboardProps> = (props) => {
           <Grid columns={3}>
             {items.map((item, index) => (
               <SortableWidgets
+                dashboard={props.dashboard}
                 key={item.configs?.id || index}
                 id={item.configs?.id}
                 widget={item}
@@ -101,6 +102,7 @@ const Dashboard: React.FC<TDashboardProps> = (props) => {
           {activeId ? (
             <Widget
               id={activeId}
+              dashboard={props.dashboard}
               widget={items.find((item) => item.configs?.id === activeId)}
             />
           ) : null}

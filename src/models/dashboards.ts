@@ -1,7 +1,7 @@
 import { createModel } from '@rematch/core';
 import { v4 as uuidv4 } from 'uuid';
 import { IRootModel } from '.';
-import { IDashboard } from '../interfaces/common-interfaces';
+import { IDashboard, IWidget } from '../interfaces/common-interfaces';
 import apiClient from '../services/api-client';
 
 type TDashboardState = Array<IDashboard>;
@@ -45,6 +45,24 @@ export const dashboards = createModel<IRootModel>()({
       try {
         const endpoint = `dashboards/${payload.id}`;
         const result = await apiClient.put(endpoint, payload);
+        return result.data;
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    },
+    async doUpdateWidgetText(
+      payload: { dashboard: IDashboard; widget: IWidget },
+      state
+    ) {
+      try {
+        const endpoint = `dashboards/${payload.dashboard.id}`;
+        const updatedDashboard = {
+          ...payload.dashboard,
+          widgets: payload.dashboard.widgets?.map((w) =>
+            w.configs?.id === payload.widget.configs?.id ? payload.widget : w
+          ),
+        };
+        const result = await apiClient.put(endpoint, updatedDashboard);
         return result.data;
       } catch (error: any) {
         console.log(error.message);

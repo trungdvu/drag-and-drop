@@ -1,12 +1,13 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import React from 'react';
-import { IWidget } from '../../interfaces/common-interfaces';
+import { IDashboard, IWidget } from '../../interfaces/common-interfaces';
 import Widget from './Widget';
 
 type TSortableWidgetProps = {
   id: string;
   widget: IWidget;
+  dashboard: IDashboard;
 };
 
 const SortableWidgets = (props: TSortableWidgetProps) => {

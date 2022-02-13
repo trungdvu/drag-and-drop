@@ -6,11 +6,13 @@ import {
   DragOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
-import { IWidget } from '../../interfaces/common-interfaces';
+import { IDashboard, IWidget } from '../../interfaces/common-interfaces';
+import WidgetText from './WidgetText';
 
 type TWidgetProps = {
   id: string;
   widget?: IWidget;
+  dashboard: IDashboard;
   isDragging?: boolean;
   dragAttributes?: any;
   dragListeners?: any;
@@ -18,12 +20,30 @@ type TWidgetProps = {
 
 const Widget = React.forwardRef<any, TWidgetProps>(
   (
-    { id, widget, isDragging, dragAttributes, dragListeners, ...props },
+    {
+      id,
+      widget,
+      dashboard,
+      isDragging,
+      dragAttributes,
+      dragListeners,
+      ...props
+    },
     ref
   ) => {
     const _handleRemove = () => {};
 
     const _handleSetting = () => {};
+
+    const _renderWidget = (widget?: IWidget) => {
+      if (!widget) {
+        return null;
+      } else if (widget.widgetType === 'WIDGET_TEXT') {
+        return <WidgetText dashboard={dashboard} widget={widget} />;
+      } else {
+        return null;
+      }
+    };
 
     const styles = {
       container: classNames(
@@ -61,6 +81,7 @@ const Widget = React.forwardRef<any, TWidgetProps>(
             />
           </div>
         </div>
+        {_renderWidget(widget)}
         {props.children}
       </section>
     );
